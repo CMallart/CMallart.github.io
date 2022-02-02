@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Let's move!</title>
+</head>
+<body>
+	<fieldset>
+		<canvas id="arena" style="border: 1px solid #000000"></canvas>
+	</fieldset>
+</body>
+<script>
+
+/*express everything in px and ms*/
+
+const sqSize = 50;
+const canvasH = 600;
+const canvasW = 600;
+
+let posx=0;
+let posy=0;
+const speedPxP = 100; /*100 px per ms*/
+
+const fpms = 4000; /*4 frames per s = 4000 frames per ms*/
+let intervalGame;
+
+const canvas = document.getElementById('canvas');
+canvas.setAttribute("width",canvasWidth);
+canvas.setAttribute("height",canvasHeight);
+const ctx = canvas.getContext('2d');
+
+let touched = Event();
+
+function startGame(){
+	let speedInterval = 1000/fpms; /*one second, divided by how many frames per second*/
+	intervalGame = setInterval(playGame, speedInterval);
+}
+
+
+function playGame(){
+	eraseSquare();
+	computeCoordinates();
+	drawSquare();
+}
+
+function eraseSquare(){
+	ctx.clearRect(posx, posy, sqSize, sqSize);
+}
+
+function drawSquare(){
+	ctx.fillStyle = 'red';
+	ctx.fillRect(posx, posy, sqSize, sqSize);
+}
+
+function computerCoordinates(){
+	if (posx+sqSize >= canvasW){
+		
+}
+
+function endGame(){
+	clearInterval(intervalGame);
+}
+
+</script>
+</html>

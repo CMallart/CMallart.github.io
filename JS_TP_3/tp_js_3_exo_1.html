@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>The moving circle!</title>
+</head>
+<body>
+	<h1> Using XmlHttpRequests : no promises</h1>
+	<fieldset>
+		<canvas id="arena" style="border: 1px solid #000000"></canvas>
+	</fieldset>
+	<button id="buttonStop">Stop the queries !</button>
+	
+	<h1> Using Fetch API</h1>
+	<fieldset>
+		<canvas id="arena2" style="border: 1px solid #000000"></canvas>
+	</fieldset>
+	<button id="buttonStop2">Stop the queries !</button>
+
+</body>
+<script>
+	document.addEventListener("DOMContentLoaded", startLoop);
+	document.addEventListener("DOMContentLoaded", startLoopFetch);
+	
+	let int = 500;
+	let canvas = document.getElementById("arena");
+	canvas.width  = int;
+  	canvas.height = int;
+  	
+  	const btn = document.getElementById('buttonStop');
+	btn.addEventListener('click', buttonHandler);
+	
+	var Circle = function(x,y,canvas){
+		this.canvas=canvas;
+		this.canvas2dContext=this.canvas.getContext("2d");
+		this.x=x;
+		this.y=y;
+		this.draw = function()
+		{
+			this.canvas2dContext.beginPath();
+			this.canvas2dContext.arc(this.x,this.y,5,0,2*Math.PI,false);
+			this.canvas2dContext.fillStyle = "black";
+			this.canvas2dContext.stroke();
+		}
+		
+	}
+	
+	function buttonHandler(){
+		window.clearInterval(intervalId);
+	}
+		
+	function drawNewCircle(){
+		let xhr = new XMLHttpRequest();
+		xhr.open("GET", 'https://stwom.herokuapp.com/'+int);
+		xhr.responseType = 'json';
+		xhr.send();
+
+		// This will be called after the response is received
+		xhr.onload = function() {
+		  if (xhr.status != 200) { // analyze HTTP status of the response
+		    alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+		  } else { // show the result
+		    let circle = new Circle(xhr.response.x, xhr.response.y, canvas);
+		    circle.draw();
+		  }
+		};
+	}
+	
+	function eraseArena(){
+		canvas.getContext("2d").clearRect(int, int, 5, 5);
+	}
+	
+	function gameLoop(){
+		eraseArena();
+		drawNewCircle();
+	}
+		
+	function startLoop(){
+		intervalId = window.setInterval(gameLoop, 1000); 	
+	}
+	
+	//window.onload = startLoop();
+	
+	
+	let canvas2 = document.getElementById("arena2");
+	canvas2.width  = int;
+  	canvas2.height = int;
+  	const btn2 = document.getElementById('buttonStop2');
+	btn2.addEventListener('click', buttonHandler2);
+  	
+	function gameLoopFetch(){
+		eraseArena();
+		drawNewCircleFetch();
+	}
+	
+	function startLoopFetch(){
+		intervalIdFetch = window.setInterval(gameLoopFetch, 1000); 	
+	}
+	
+	function buttonHandler2(){
+		window.clearInterval(intervalIdFetch);
+	}
+		
+	
+	function drawNewCircleFetch(){
+		fetch('https://stwom.herokuapp.com/'+int)
+	  		.then(response => response.json())
+	  		.then(function drawCoord(data){
+	  		let circle = new Circle(data.x, data.y, canvas2);
+	  		circle.draw();
+			});
+	}
+	
+
+	
+
+</script>
+</html>

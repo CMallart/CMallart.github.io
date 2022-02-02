@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Let's count!</title>
+</head>
+<body>
+<button id="start">Start</button>
+<button id="reset">Reset</button>
+<div id="countdown"></div>
+</body>
+<script>
+let timeLeft = 5;
+let timer;
+
+function startTimer() {
+	timer = setInterval(function(){
+		document.getElementById("countdown").innerHTML = timeLeft;
+		timeLeft-=1;	
+		if (timeLeft<0){
+			clearInterval(timer);
+			/*document.getElementById("countdown").innerHTML = "Over";*/
+		}
+	}, 1000);
+}
+
+function resetTimer(){
+	timeLeft = 5;
+	document.getElementById("countdown").innerHTML = "";
+}
+
+document.getElementById("start").addEventListener("click", startTimer);
+document.getElementById("reset").addEventListener("click", resetTimer);
+
+</script>
+</html>
