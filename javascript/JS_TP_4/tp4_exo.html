@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
 <title>Workers</title>
 </head>
 <body>
 
-    <div id="result"> </div>
+<h1>Simple red dot </h1>
+<button id="stop_workers"> Stop it ! </button>
+<canvas id="arena" style="border: 1px solid #000000"></canvas>
+
+<h1>Multiple workers</h1>
+<input type="number" id="num_colors" min="1" max="10" value=0>
+<button id="restart_multiple"> Draw new points </button>
+<br>
+
+<canvas id="arena2" style="border: 1px solid #000000"></canvas>
+
+<div id="result"></div>
 
 </body>
 
